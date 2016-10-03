@@ -1,0 +1,197 @@
+
+<html>
+<head>
+<!-- -->
+   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+ <script src="http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script>
+
+$(document).ready(function () {
+
+    var request = $.ajax({
+      url: 'http://tipiciudadano.es/api/v1/stats/overall/',
+      type:"GET",
+      contentType: "application/json",
+      
+      
+    });
+
+
+
+    request.done(function(dataJson) {
+
+//sum 
+
+
+
+var sum = 0
+
+for (var i in dataJson[0]['overall']){
+    sum += dataJson[0]['overall'][i].count
+    
+}
+
+
+
+//Create data 
+
+arraydata =[]
+
+
+for (var i in dataJson[0]['overall']){
+	console.log(dataJson[0]['overall'][i]);
+    
+    item = { name: dataJson[0]['overall'][i]._id,
+        y: (dataJson[0]['overall'][i].count/sum)*100}
+
+    arraydata.push(item)
+    
+	
+}
+
+
+
+$('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Pie Chart Tipis Overall'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Tipi',
+                colorByPoint: true,
+                data: arraydata
+            }]
+        });
+
+
+
+
+
+    }
+    );//end request
+
+        // Build the chart
+        
+    });
+
+</script>
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body>
+  <nav class=" blue darken-4" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Tipi Client</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="http://enreda.coop">About us</a></li>
+      </ul>
+
+      
+    </div>
+  </nav>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <div class="row center">
+        <a href="/olympicsgames/" id="download-button" class="btn-large waves-effect waves-light blue darken-1">Back to Home</a>
+        <a href="/olympicsgames/charts" id="download-button" class="btn-large waves-effect waves-light blue darken-1">Google chart</a>
+        <a href="/olympicsgames/charts/d3.html" id="download-button" class="btn-large waves-effect waves-light blue darken-1">D3 </a>
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      
+<div id="container" style="min-width: 310px; height: 470px; max-width: 600px; margin: 0 auto"></div>
+       
+
+
+       
+      </div>
+
+    </div>
+    <br><br>
+
+    <div class="section">
+
+    </div>
+  </div>
+
+  <footer class="page-footer grey lighten-1">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Bio</h5>
+          <p class="grey-text text-lighten-4">
+            This is a case use TIPI API. 
+          </p>
+
+
+        </div>
+
+        <div class="col l3 s12">
+          
+        </div>
+
+        
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="https://twitter.com/enreda">Twitter</a></li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        <p>Hecho <i class="tiny material-icons">code</i> desde <a class="white-text" href="http://enreda.coop">enreda.coop</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  </body>
+</html>
